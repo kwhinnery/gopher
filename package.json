@@ -1,6 +1,6 @@
 {
   "name": "gopher",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Gopher Express is a slightly more opinionated flavor of express (expressjs.com)",
   "main": "index.js",
   "scripts": {
@@ -19,10 +19,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kwhinnery/gopher/issues"
-  },
-  "devDependencies": {
-    "express":"3.x",
-    "ejs":"*"
   },
   "peerDependencies": {
     "express":"3.x",

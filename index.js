@@ -5,9 +5,9 @@ var express = require('express'),
 // Create global app object
 var app = express();
 
-// Create an HTTP server for use with our app (and whatever else)
+// Create an HTTP server for use with our app, and hang it off the app instance
 var server = http.createServer(app);
-app.set('gopher.server', server);
+app.httpServer = server;
 
 // Create some config that the user can override
 app.set('gopher.autostart', true);
@@ -19,14 +19,15 @@ app.set('views', path.join(process.cwd(), 'views'));
 app.set('view engine', 'ejs');
 
 // Start the HTTP server with configured settings
+var serverStarted;
 app.startServer = function() {
-    server.listen(app.get('port'), function(){
-        console.log('Express server listening on port ' + app.get('port'));
-    });
+    if (!serverStarted) {
+        server.listen(app.get('port'), function() {
+            serverStarted = true;
+            console.log('Express server listening on port ' + app.get('port'));
+        });
+    }
 };
-
-// Export the express app as the module interface
-module.exports = app;
 
 // Auto mount middleware and start the HTTP server on nextTick
 process.nextTick(function() {
@@ -50,3 +51,6 @@ process.nextTick(function() {
         app.startServer();
     }
 });
+
+// Export the express app as the module interface
+module.exports = app;
