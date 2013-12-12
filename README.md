@@ -34,6 +34,7 @@ Your Gopher Express app uses the [express app configuration API](http://expressj
 
 #### Default Middleware
 Check these out [here](http://expressjs.com/api.html#middleware).
+
 * `app.use(express.logger('dev'));`
 * `app.use(express.json());`
 * `app.use(express.urlencoded());`
