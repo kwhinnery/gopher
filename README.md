@@ -6,7 +6,7 @@
 
     npm install --save gopher
 
-This will pull down compatible [express](http://expressjs.com) and [EJS](https://github.com/visionmedia/ejs) versions if they're not already a part of your project.  Check `package.json` for the current supported versions.
+This will install [express](http://expressjs.com) and [EJS](https://github.com/visionmedia/ejs) as [peer dependencies](http://blog.nodejs.org/2013/02/07/peer-dependencies/) if they're not already a part of your project.  Check `package.json` for the current supported versions.
 
 ## Usage
 
