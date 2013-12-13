@@ -44,7 +44,7 @@ Check these out [here](http://expressjs.com/api.html#middleware).
 * Development: `app.use(express.errorHandler());`
 
 #### Gopher-specific configuration
-* `app.get('gopher.autostart')` : automatically start the created HTTP server
+* `app.set('gopher.autostart', true)` : automatically start the created HTTP server
 * `app.set('gopher.middleware', true);` : automatically mount default middleware
 
 ## API and Module Properties
