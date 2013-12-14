@@ -4,7 +4,7 @@
   "description": "Gopher Express is a slightly more opinionated flavor of express (expressjs.com)",
   "main": "index.js",
   "scripts": {
-    "test": "jasmine-node spec"
+    "test": "node test/index.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +19,12 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/kwhinnery/gopher/issues"
+  },
+  "dependencies": {
+    "methods":"*"
+  },
+  "devDependencies": {
+    "request":"2.x"
   },
   "peerDependencies": {
     "express":"3.x",

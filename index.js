@@ -1,6 +1,7 @@
 var express = require('express'),
     http = require('http'),
-    path = require('path');
+    path = require('path'),
+    methods = require('methods');
 
 // Create global app object
 var app = express();
@@ -8,6 +9,28 @@ var app = express();
 // Create an HTTP server for use with our app, and hang it off the app instance
 var server = http.createServer(app);
 app.httpServer = server;
+
+// Delay addition of routes because they need to be added *after* the global
+// middleware has been set up with app.use. This blows, but is the only way to 
+// avoid API cruft when requiring the module.
+function monkeyPatch(functionName) {
+    var old = app[functionName];
+    app[functionName] = function() {
+        var args = arguments;
+        // Delegate right to old behavior for config getters
+        if (functionName === 'get' && arguments.length === 1) {
+            return old.apply(app,args);
+        } else {
+            setTimeout(function() {
+                old.apply(app,args);
+            },1);
+        }
+    };
+}
+
+// Add wrappers for all router methods
+monkeyPatch('all');
+methods.forEach(monkeyPatch);
 
 // Create some config that the user can override
 app.set('gopher.autostart', true);
@@ -29,8 +52,9 @@ app.startServer = function() {
     }
 };
 
-// Auto mount middleware and start the HTTP server on nextTick
+// Auto mount middleware on nextTick and auto start server after 10ms
 process.nextTick(function() {
+    console.log(process.cwd());
     if (app.get('gopher.middleware')) {
         // Middleware stuff you probably want - TODO: Allow user to prevent 
         // mounting specific middleware
