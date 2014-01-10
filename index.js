@@ -1,7 +1,8 @@
 var express = require('express'),
     http = require('http'),
     path = require('path'),
-    methods = require('methods');
+    methods = require('methods'),
+    browserify = require('browserify-middleware');
 
 // Create global app object
 var app = express();
@@ -35,6 +36,7 @@ methods.forEach(monkeyPatch);
 // Create some config that the user can override
 app.set('gopher.autostart', true);
 app.set('gopher.middleware', true);
+app.set('gopher.browserify', true);
 
 // Normal express config defaults
 app.set('port', process.env.PORT || 3000);
@@ -68,6 +70,12 @@ process.nextTick(function() {
         if ('development' == app.get('env')) {
             app.use(express.errorHandler());
         }
+    }
+
+    // Auto-browserify process.cwd()+/browser/index.js
+    if (app.get('gopher.browserify')) {
+        var browserifySrc = path.join(process.cwd(), 'browser', 'index.js');
+        app.use('/main.js', browserify(browserifySrc));
     }
 
     // Auto-start HTTP server unless told otherwise...
