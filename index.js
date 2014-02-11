@@ -1,7 +1,8 @@
-var express = require('express'),
+var fs = require('fs'),
     http = require('http'),
     path = require('path'),
     methods = require('methods'),
+    express = require('express'),
     browserify = require('browserify-middleware');
 
 // Create global app object
@@ -75,7 +76,9 @@ process.nextTick(function() {
     // Auto-browserify process.cwd()+/browser/index.js
     if (app.get('gopher.browserify')) {
         var browserifySrc = path.join(process.cwd(), 'browser', 'index.js');
-        app.use('/main.js', browserify(browserifySrc));
+        if (fs.existsSync(browserifySrc)) {
+            app.use('/main.js', browserify(browserifySrc));
+        }
     }
 
     // Auto-start HTTP server unless told otherwise...
