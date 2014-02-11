@@ -1,6 +1,6 @@
 {
   "name": "gopher",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Gopher Express is a slightly more opinionated flavor of express (expressjs.com)",
   "main": "index.js",
   "scripts": {
