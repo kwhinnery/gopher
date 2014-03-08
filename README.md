@@ -46,6 +46,18 @@ Check these out [here](http://expressjs.com/api.html#middleware).
 #### Gopher-specific configuration
 * `app.set('gopher.autostart', true)` : automatically start the created HTTP server
 * `app.set('gopher.middleware', true);` : automatically mount default middleware
+* `app.set('gopher.browserify', true);` : enable browserify middleware (see below)
+* `app.set('gopher.less', true);` : Enable Less CSS middleware (see below)
+
+#### Browserify (experimental feature, API not fully baked)
+Gopher will automatically use [browserify-middleware](https://github.com/ForbesLindesay/browserify-middleware) to look for a browserify-able file in your app's working directory, under `browser/index.js`. Gopher will browserify this file and mount it for a GET request at `/main.js`. If `browser/index.js` doesn't exist in your project, nothing will be done.
+
+#### Less CSS (experimental feature, API not fully baked)
+Gopher will automatically mount [less-middleware](https://github.com/emberfeather/less.js-middleware).  TL;DR - this middleware will intercept GET requests for *.css.  It will look for .less files in your public directory by the same name. If it finds one, it will Less compile that file and place it in your `public` directory.  The resulting CSS will then be served up by Express' static middleware.
+
+Note that this compilation step will only happen once per node process launch, so during development, any changes to your Less files will not be picked up until the next app launch.  However, you're probably already using [nodemon](https://github.com/remy/nodemon) or something similar to watch your app files for changes and restart your node process, right? If not, start! This will save you lots of time.  Once you start using nodemon, you can monitor both your .js and .less files for changes, and restart your node process when either file type is modified. Start your app like this from now on:
+
+        nodemon -e js,less your_app.js
 
 ## API and Module Properties
 

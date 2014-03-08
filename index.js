@@ -3,7 +3,8 @@ var fs = require('fs'),
     path = require('path'),
     methods = require('methods'),
     express = require('express'),
-    browserify = require('browserify-middleware');
+    browserify = require('browserify-middleware'),
+    less = require('less-middleware');
 
 // Create global app object
 var app = express();
@@ -38,6 +39,7 @@ methods.forEach(monkeyPatch);
 app.set('gopher.autostart', true);
 app.set('gopher.middleware', true);
 app.set('gopher.browserify', true);
+app.set('gopher.less', true);
 
 // Normal express config defaults
 app.set('port', process.env.PORT || 3000);
@@ -50,14 +52,19 @@ app.startServer = function() {
     if (!serverStarted) {
         server.listen(app.get('port'), function() {
             serverStarted = true;
-            console.log('Express server listening on port ' + app.get('port'));
+            console.log('Gopher Express server listening on port ' + app.get('port'));
         });
     }
 };
 
 // Auto mount middleware on nextTick and auto start server after 10ms
 process.nextTick(function() {
-    console.log(process.cwd());
+    // Auto-less-compile process.cwd()+/public
+    if (app.get('gopher.less')) {
+        app.use(less(process.cwd()+'/public'));
+    }
+
+    // Configure standard Express middleware
     if (app.get('gopher.middleware')) {
         // Middleware stuff you probably want - TODO: Allow user to prevent 
         // mounting specific middleware
