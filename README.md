@@ -51,7 +51,7 @@ Check these out [here](http://expressjs.com/api.html#middleware).
 * `app.set('gopher.less', true);` : Enable Less CSS middleware (see below)
 
 #### Browserify (experimental feature, API not fully baked)
-Gopher will automatically use [browserify](https://github.com/substack/node-browserify) browserify and then serve any JS files in your project's `browser` directory. Gopher sets up a route for `/browser/:filename.js`, and will browserify any files found there by that name. 
+Gopher will automatically use [browserify](https://github.com/substack/node-browserify) to bundle and then serve any JS files in your project's `browser` directory. Gopher sets up a route for `/browser/:filename.js`, and will browserify any files found there by that name. 
 
 #### Less CSS (experimental feature, API not fully baked)
 Gopher will automatically mount [less-middleware](https://github.com/emberfeather/less.js-middleware).  TL;DR - this middleware will intercept GET requests for *.css.  It will look for .less files in your public directory by the same name. If it finds one, it will Less compile that file and place it in your `public` directory.  The resulting CSS will then be served up by Express' static middleware.
