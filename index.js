@@ -3,11 +3,15 @@ var fs = require('fs'),
     path = require('path'),
     methods = require('methods'),
     express = require('express'),
-    browserify = require('browserify-middleware'),
+    browserify = require('browserify'),
     less = require('less-middleware');
 
 // Create global app object
 var app = express();
+
+// Create object to contain browserified source in memory, so we don't 
+// rebrowserify every file
+var browserified = {};
 
 // Create an HTTP server for use with our app, and hang it off the app instance
 var server = http.createServer(app);
@@ -39,6 +43,9 @@ methods.forEach(monkeyPatch);
 app.set('gopher.autostart', true);
 app.set('gopher.middleware', true);
 app.set('gopher.browserify', true);
+app.set('gopher.browserify.options', {
+    debug: process.env.NODE_ENV !== 'production'
+});
 app.set('gopher.less', true);
 
 // Normal express config defaults
@@ -80,12 +87,53 @@ process.nextTick(function() {
         }
     }
 
-    // Auto-browserify process.cwd()+/browser/index.js
+    // Auto-browserify any file from the "browser" directory
     if (app.get('gopher.browserify')) {
-        var browserifySrc = path.join(process.cwd(), 'browser', 'index.js');
-        if (fs.existsSync(browserifySrc)) {
-            app.use('/main.js', browserify(browserifySrc));
-        }
+        app.get('/browser/:filename.js', function(request, response, next) {
+            var filename = request.param('filename');
+
+            // Send the in-memory JS code back to the client
+            function send(f) {
+                response.type('application/javascript');
+                response.send(browserified[f]);
+            }
+
+            // If we've already browserified this file, just cache it
+            if (browserified[filename]) {
+                send(filename);
+            } else {
+                var src = path.join(process.cwd(), 'browser', filename+'.js');
+
+                // Grab the requested source file if it exists
+                if (fs.existsSync(src)) {
+                    // Browserify the requested file and serve it up
+                    var b = browserify();
+                    b.add(src);
+
+                    // Load browserification options
+                    var opts = app.get('gopher.browserify.options');
+
+                    // Uglify for non-dev builds
+                    if (!opts.debug) {
+                        b.transform({
+                            global: true
+                        }, 'uglifyify');
+                    }
+
+                    // create bundle and store in memory
+                    b.bundle(opts, function(err, src) {
+                        if (!err) {
+                            browserified[filename] = src;
+                            send(filename);
+                        } else {
+                            response.send(500, err);
+                        }
+                    });
+                } else {
+                    next();
+                }
+            }
+        });
     }
 
     // Auto-start HTTP server unless told otherwise...

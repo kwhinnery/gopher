@@ -1,6 +1,6 @@
 {
   "name": "gopher",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Gopher Express is a more opinionated flavor of express (expressjs.com)",
   "main": "index.js",
   "scripts": {
@@ -22,8 +22,9 @@
   },
   "dependencies": {
     "methods": "*",
-    "browserify-middleware": "~2.2.0",
-    "less-middleware": "~0.2.0"
+    "less-middleware": "~0.2.0",
+    "browserify": "~3.32.1",
+    "uglifyify": "~1.2.3"
   },
   "devDependencies": {
     "express": "3.x",
