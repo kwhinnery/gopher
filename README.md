@@ -2,6 +2,10 @@
 
 [Express](http://expressjs.com) is the de-facto standard for a light weight web framework in node.js, but sometimes it might be nice to include just a bit more in terms of default configuration and behavior. That's what Gopher Express is for.
 
+## Words Of Caution
+
+This module is largely an experiment in API design for a node.js web framework, and will frequently introduce API changes. Use at your own risk. However, since Gopher is just a customized version of Express with some extra features, it is easy to do anything the plain old Express way, or migrate to just using Express.
+
 ## Installation
 
     npm install --save gopher
