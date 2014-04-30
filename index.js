@@ -57,14 +57,14 @@ app.set('view engine', 'ejs');
 var serverStarted;
 app.startServer = function() {
     if (!serverStarted) {
-        server.listen(app.get('port'), function() {
+        app.httpServer.listen(app.get('port'), function() {
             serverStarted = true;
             console.log('Gopher Express server listening on port ' + app.get('port'));
         });
     }
 };
 
-// Auto mount middleware on nextTick and auto start server after 10ms
+// Auto mount middleware on nextTick and auto start server
 process.nextTick(function() {
     // Auto-less-compile process.cwd()+/public
     if (app.get('gopher.less')) {
@@ -75,15 +75,14 @@ process.nextTick(function() {
     if (app.get('gopher.middleware')) {
         // Middleware stuff you probably want - TODO: Allow user to prevent 
         // mounting specific middleware
-        app.use(express.logger('dev'));
-        app.use(express.json());
-        app.use(express.urlencoded());
-        app.use(express.methodOverride());
-        app.use(app.router);
+
+        app.use(require('morgan')('dev'));
+        app.use(require('body-parser')());
+        app.use(require('method-override')());
         app.use(express.static(path.join(process.cwd(), 'public')));
 
         if ('development' == app.get('env')) {
-            app.use(express.errorHandler());
+            app.use(require('errorhandler')());
         }
     }
 

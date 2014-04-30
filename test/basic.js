@@ -8,9 +8,11 @@ module.exports = function(app) {
     request('http://localhost:3000/xml', function(err, response, body) {
         assert(!err);
         assert(body === '<foo>bar</foo>');
-        assert(response.headers['content-type'] === 'text/xml');
+        assert(response.headers['content-type'].indexOf('text/xml') > -1);
         tests++;
     });
+
+    
 
     // Test a POST request and prameter serialization in middleware
     request({
