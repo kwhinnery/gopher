@@ -5,6 +5,7 @@ var fs = require('fs'),
     express = require('express'),
     browserify = require('browserify'),
     less = require('less-middleware');
+    isProduction = process.env.NODE_ENV === 'production'
 
 // Create global app object
 var app = express();
@@ -44,7 +45,7 @@ app.set('gopher.autostart', true);
 app.set('gopher.middleware', true);
 app.set('gopher.browserify', true);
 app.set('gopher.browserify.options', {
-    debug: process.env.NODE_ENV !== 'production'
+    debug: !isProduction
 });
 app.set('gopher.less', true);
 
@@ -68,7 +69,9 @@ app.startServer = function() {
 process.nextTick(function() {
     // Auto-less-compile process.cwd()+/public
     if (app.get('gopher.less')) {
-        app.use(less(process.cwd()+'/public'));
+        app.use(less(process.cwd()+'/public', {
+            force: !isProduction
+        }));
     }
 
     // Configure standard Express middleware
@@ -124,7 +127,10 @@ process.nextTick(function() {
                     // create bundle and store in memory
                     b.bundle(opts, function(err, src) {
                         if (!err) {
-                            browserified[filename] = src;
+                            // Cache output if in production
+                            if (isProduction) {
+                                browserified[filename] = src;
+                            }
                             send(filename);
                         } else {
                             response.send(500, err);

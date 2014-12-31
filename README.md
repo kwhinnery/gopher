@@ -30,7 +30,7 @@ What happened?
 Your Gopher Express app uses the [express app configuration API](http://expressjs.com/api.html#app.set) to store configuration properties for the app.  Here is the default configuration, all of which can be overridden if desired:
 
 #### Standard Express Configuration
-* `app.set('view engine', 'ejs');` : Use EJS as the templating engine
+* `app.set('view engine', 'jade');` : Use Jade as the templating engine
 * `app.set('views', path.join(process.cwd(), 'views'));` : Views directory is `views` in the webapp directory
 * `app.set('port', process.env.PORT || 3000);` : Use an environment variable for the HTTP port, or start up on port 3000
 
@@ -38,7 +38,7 @@ Your Gopher Express app uses the [express app configuration API](http://expressj
 Express 4 removed much of the built-in middleware included in Express 3.  These have been replaced by their standalone projects.  Check them out [here](http://expressjs.com/api.html#middleware).
 
 * `app.use(require('morgan')('dev'));`
-* `app.use(require('body-parser')());`
+* `app.use(require('body-parser').urlencoded({extended:false}));`
 * `app.use(require('method-override')());`
 * `app.use(express.static(path.join(process.cwd(), 'public')));` : static content goes in `public`
 * Development: `app.use(require('errorhandler')());`
