@@ -99,12 +99,12 @@ process.nextTick(function() {
             // Send the in-memory JS code back to the client
             function send(f) {
                 response.type('application/javascript');
-                response.send(browserified[f]);
+                response.send(f);
             }
 
             // If we've already browserified this file, just cache it
             if (browserified[filename]) {
-                send(filename);
+                send(browserified[filename]);
             } else {
                 var src = path.join(process.cwd(), 'browser', filename+'.js');
 
@@ -131,7 +131,7 @@ process.nextTick(function() {
                             if (isProduction) {
                                 browserified[filename] = src;
                             }
-                            send(filename);
+                            send(src);
                         } else {
                             response.send(500, err);
                         }
