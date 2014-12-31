@@ -7,7 +7,7 @@ module.exports = function(app) {
     // Test XML generating EJS view
     request('http://localhost:3000/xml', function(err, response, body) {
         assert(!err);
-        assert(body === '<foo>bar</foo>');
+        assert(body === '<?xml version="1.0" encoding="utf-8" ?><foo>bar</foo>');
         assert(response.headers['content-type'].indexOf('text/xml') > -1);
         tests++;
     });

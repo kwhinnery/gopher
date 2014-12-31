@@ -1,6 +1,6 @@
 {
   "name": "gopher",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Gopher Express is a more opinionated flavor of express (expressjs.com)",
   "main": "index.js",
   "scripts": {
@@ -21,16 +21,16 @@
     "url": "https://github.com/kwhinnery/gopher/issues"
   },
   "dependencies": {
-    "methods": "*",
-    "less-middleware": "~0.2.0",
-    "browserify": "~3.32.1",
-    "uglifyify": "~1.2.3",
-    "express": "4.x",
-    "ejs": "*",
-    "method-override": "^1.0.0",
-    "morgan": "^1.0.0",
     "body-parser": "^1.0.2",
-    "errorhandler": "^1.0.1"
+    "browserify": "~3.32.1",
+    "errorhandler": "^1.0.1",
+    "express": "4.x",
+    "jade": "^1.8.2",
+    "less-middleware": "^1.0.4",
+    "method-override": "^1.0.0",
+    "methods": "*",
+    "morgan": "^1.0.0",
+    "uglifyify": "~1.2.3"
   },
   "devDependencies": {
     "request": "2.x"

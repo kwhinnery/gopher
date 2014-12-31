@@ -51,7 +51,7 @@ app.set('gopher.less', true);
 // Normal express config defaults
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(process.cwd(), 'views'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'jade');
 
 // Start the HTTP server with configured settings
 var serverStarted;
@@ -77,7 +77,9 @@ process.nextTick(function() {
         // mounting specific middleware
 
         app.use(require('morgan')('dev'));
-        app.use(require('body-parser')());
+        app.use(require('body-parser').urlencoded({ 
+            extended: false 
+        }));
         app.use(require('method-override')());
         app.use(express.static(path.join(process.cwd(), 'public')));
 
