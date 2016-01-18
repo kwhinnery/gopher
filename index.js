@@ -110,12 +110,13 @@ process.nextTick(function() {
 
                 // Grab the requested source file if it exists
                 if (fs.existsSync(src)) {
-                    // Browserify the requested file and serve it up
-                    var b = browserify();
-                    b.add(src);
-
                     // Load browserification options
                     var opts = app.get('gopher.browserify.options');
+
+                    // Browserify the requested file and serve it up
+                    var b = browserify(opts);
+                    b.add(src);
+
 
                     // Uglify for non-dev builds
                     if (!opts.debug) {
@@ -125,7 +126,7 @@ process.nextTick(function() {
                     }
 
                     // create bundle and store in memory
-                    b.bundle(opts, function(err, src) {
+                    b.bundle(function(err, src) {
                         if (!err) {
                             // Cache output if in production
                             if (isProduction) {
