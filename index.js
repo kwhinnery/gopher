@@ -106,7 +106,11 @@ process.nextTick(function() {
             if (browserified[filename]) {
                 send(browserified[filename]);
             } else {
-                var src = path.join(process.cwd(), 'browser', filename+'.js');
+	            if( app.get('gopher.browserify.path') ){
+		            var src = app.get('gopher.browserify.path') + '/' + filename+'.js';
+	            }else{
+	                var src = path.join(process.cwd(), 'browser', filename+'.js');
+	            }
 
                 // Grab the requested source file if it exists
                 if (fs.existsSync(src)) {
