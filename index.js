@@ -117,6 +117,9 @@ process.nextTick(function() {
                     // Load browserification options
                     var opts = app.get('gopher.browserify.options');
 
+                    // add standalone mode and name the file after the filename...
+                    opts.standalone = filename;
+
                     // Browserify the requested file and serve it up
                     var b = browserify(opts);
                     b.add(src);
