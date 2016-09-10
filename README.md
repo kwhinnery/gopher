@@ -8,7 +8,7 @@ This module is largely an experiment in API design for a node.js web framework, 
 
 ## Installation
 
-    npm install --save gopher
+    npm install --save freekrai/gopher
 
 ## Usage
 
