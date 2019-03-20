@@ -10,7 +10,7 @@ var fs = require('fs'),
 // Create global app object
 var app = express();
 
-// Create object to contain browserified source in memory, so we don't 
+// Create object to contain browserified source in memory, so we don't
 // rebrowserify every file
 var browserified = {};
 
@@ -19,7 +19,7 @@ var server = http.createServer(app);
 app.httpServer = server;
 
 // Delay addition of routes because they need to be added *after* the global
-// middleware has been set up with app.use. This blows, but is the only way to 
+// middleware has been set up with app.use. This blows, but is the only way to
 // avoid API cruft when requiring the module.
 function monkeyPatch(functionName) {
     var old = app[functionName];
@@ -52,7 +52,7 @@ app.set('gopher.less', true);
 // Normal express config defaults
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(process.cwd(), 'views'));
-app.set('view engine', 'jade');
+app.set('view engine', 'pug');
 
 // Start the HTTP server with configured settings
 var serverStarted;
@@ -76,12 +76,12 @@ process.nextTick(function() {
 
     // Configure standard Express middleware
     if (app.get('gopher.middleware')) {
-        // Middleware stuff you probably want - TODO: Allow user to prevent 
+        // Middleware stuff you probably want - TODO: Allow user to prevent
         // mounting specific middleware
 
         app.use(require('morgan')('dev'));
-        app.use(require('body-parser').urlencoded({ 
-            extended: false 
+        app.use(require('body-parser').urlencoded({
+            extended: false
         }));
         app.use(require('method-override')());
         app.use(express.static(path.join(process.cwd(), 'public')));
