@@ -8,7 +8,7 @@ This module is largely an experiment in API design for a node.js web framework, 
 
 ## Installation
 
-    npm install --save gopher
+    npm install --save freekrai/gopher
 
 ## Usage
 
@@ -30,7 +30,7 @@ What happened?
 Your Gopher Express app uses the [express app configuration API](http://expressjs.com/api.html#app.set) to store configuration properties for the app.  Here is the default configuration, all of which can be overridden if desired:
 
 #### Standard Express Configuration
-* `app.set('view engine', 'jade');` : Use Jade as the templating engine
+* `app.set('view engine', 'pug');` : Use Pug as the templating engine
 * `app.set('views', path.join(process.cwd(), 'views'));` : Views directory is `views` in the webapp directory
 * `app.set('port', process.env.PORT || 3000);` : Use an environment variable for the HTTP port, or start up on port 3000
 
@@ -48,10 +48,13 @@ Express 4 removed much of the built-in middleware included in Express 3.  These 
 * `app.set('gopher.middleware', true);` : automatically mount default middleware
 * `app.set('gopher.browserify', true);` : enable browserify middleware (see below)
 * `app.set('gopher.browserify.options', { debug: process.env.NODE_ENV !== 'production' });` : options passed to the browserify `bundle` command. Setting debug to false will also have the effect of uglifying your browserify bundle  
+* `app.set('gopher.browserify.path', __dirname + '/browser');` : path to browserified files. _Defaults to `/browser` but handy option if moving files to other folders such as `/app/browser`_.
 * `app.set('gopher.less', true);` : Enable Less CSS middleware (see below)
 
 #### Browserify (experimental feature, API not fully baked)
-Gopher will automatically use [browserify](https://github.com/substack/node-browserify) to bundle and then serve any JS files in your project's `browser` directory. Gopher sets up a route for `/browser/:filename.js`, and will browserify any files found there by that name. 
+Gopher will automatically use [browserify](https://github.com/substack/node-browserify) to bundle and then serve any JS files in your project's `browser` directory. Gopher sets up a route for `/browser/:filename.js`, and will browserify any files found there by that name.
+
+If you set `gopher.browserify.path`, then Gopher will use the path specified for the browser files instead, the route will remain as `/browser/:filename.js`, but Gopher will load the file from where ever you tell it to. For example: `app.set('gopher.browserify.path', __dirname + '/app/browser');` will tell Gopher to look for JS files inside `/app/browser` and serve them via `/browser/`.
 
 #### Less CSS (experimental feature, API not fully baked)
 Gopher will automatically mount [less-middleware](https://github.com/emberfeather/less.js-middleware).  TL;DR - this middleware will intercept GET requests for *.css.  It will look for .less files in your public directory by the same name. If it finds one, it will Less compile that file and place it in your `public` directory.  The resulting CSS will then be served up by Express' static middleware.

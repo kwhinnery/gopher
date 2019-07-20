@@ -1,6 +1,6 @@
 {
   "name": "gopher",
-  "version": "0.2.1",
+  "version": "1.0.1",
   "description": "Gopher Express is a more opinionated flavor of express (expressjs.com)",
   "main": "index.js",
   "scripts": {
@@ -8,29 +8,30 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/kwhinnery/gopher.git"
+    "url": "https://github.com/freekrai/gopher.git"
   },
   "keywords": [
     "express",
     "web",
     "framework"
   ],
-  "author": "Kevin Whinnery",
+  "author": "Roger Stringer",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/kwhinnery/gopher/issues"
+    "url": "https://github.com/freekrai/gopher/issues"
   },
   "dependencies": {
-    "body-parser": "^1.0.2",
-    "browserify": "~3.32.1",
-    "errorhandler": "^1.0.1",
-    "express": "4.x",
-    "jade": "^1.8.2",
-    "less-middleware": "^1.0.4",
-    "method-override": "^1.0.0",
-    "methods": "*",
-    "morgan": "^1.0.0",
-    "uglifyify": "~1.2.3"
+    "body-parser": "1.14.2",
+    "browserify": "13.0.0",
+    "errorhandler": "1.4.3",
+    "express": "4.13.3",
+    "less-middleware": "1.0.4",
+    "method-override": "1.0.2",
+    "methods": "1.1.2",
+    "morgan": "1.6.1",
+    "pug": "^2.0.3",
+    "request": "2.67.0",
+    "uglifyify": "1.2.3"
   },
   "devDependencies": {
     "request": "2.x"
